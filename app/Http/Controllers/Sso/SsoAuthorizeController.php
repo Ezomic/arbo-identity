@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Sso;
 use App\Http\Controllers\Controller;
 use App\Models\AppDefinition;
 use App\Models\User;
+use App\Services\ActivityLogger;
 use App\Services\JwtIssuer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SsoAuthorizeController extends Controller
 {
-    public function __construct(private readonly JwtIssuer $jwtIssuer) {}
+    public function __construct(
+        private readonly JwtIssuer $jwtIssuer,
+        private readonly ActivityLogger $activityLogger,
+    ) {}
 
     /**
      * The single entry point every consuming app's "Log in" link points at.
@@ -60,6 +64,8 @@ class SsoAuthorizeController extends Controller
         $user = Auth::user();
 
         $token = $this->jwtIssuer->issueFor($user, $appSlug);
+
+        $this->activityLogger->log('sso_handoff', $user->uuid ?? null, ['target_app' => $appSlug]);
 
         $target = $this->safeRedirectTarget($redirectTo, $app->base_url);
 

@@ -17,8 +17,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/sso/authorize', SsoAuthorizeController::class)->name('sso.authorize');
 Route::get('/sso/logout', SsoLogoutController::class)->name('sso.logout');
 
-Route::get('tenants/create', [TenantRegistrationController::class, 'create'])->name('tenants.create');
-Route::post('tenants', [TenantRegistrationController::class, 'store'])->name('tenants.store');
+Route::middleware(['throttle:tenant-registration'])->group(function () {
+    Route::get('tenants/create', [TenantRegistrationController::class, 'create'])->name('tenants.create');
+    Route::post('tenants', [TenantRegistrationController::class, 'store'])->name('tenants.store');
+});
 
 Route::get('/.well-known/identity-public-key', fn () => response(
     File::get(config('sso.public_key_path')),
