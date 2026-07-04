@@ -31,4 +31,5 @@ Route::get('/.well-known/identity-public-key', fn () => response(
     ['Content-Type' => 'text/plain'],
 ))->name('sso.public-key');
 
+require __DIR__.'/master.php';
 require __DIR__.'/settings.php';

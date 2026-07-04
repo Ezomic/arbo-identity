@@ -49,6 +49,35 @@ class JwtIssuer
     }
 
     /**
+     * Issue a JWT directly for a target user without going through the
+     * linked-account resolver. Used by the master portal for impersonation.
+     * The issuing platform admin is not represented in the token at all —
+     * the satellite app sees only the impersonated user.
+     */
+    public function issueForImpersonation(User $targetUser, string $appSlug): string
+    {
+        $now = time();
+
+        $payload = [
+            'iss' => 'identity',
+            'aud' => $appSlug,
+            'sub' => $targetUser->uuid,
+            'iat' => $now,
+            'exp' => $now + config('sso.token_ttl_seconds'),
+            'email' => $targetUser->email,
+            'name' => $targetUser->name,
+            'role' => $targetUser->role?->name,
+            'tenant_id' => $targetUser->tenant_id,
+            'tenant_name' => $targetUser->tenant?->name,
+            'scope_id' => $targetUser->scope_id,
+            'apps' => [],
+            'impersonated_by' => 'platform_admin',
+        ];
+
+        return JWT::encode($payload, $this->privateKey(), 'RS256');
+    }
+
+    /**
      * The account that should represent this person in $appSlug: their
      * own, if it already belongs to that portal, otherwise a linked
      * account that does.
