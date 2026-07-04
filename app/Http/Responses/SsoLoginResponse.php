@@ -30,6 +30,11 @@ class SsoLoginResponse implements LoginResponseContract
         /** @var User $user */
         $user = $request->user();
 
+        $user->update([
+            'last_login_at' => now(),
+            'last_login_ip' => $request->ip(),
+        ]);
+
         $token = $this->jwtIssuer->issueFor($user, $appSlug);
 
         $redirectTo = $this->safeRedirectTarget($request, $app->base_url);

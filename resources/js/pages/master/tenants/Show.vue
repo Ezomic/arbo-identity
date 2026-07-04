@@ -36,6 +36,8 @@ type TenantUser = {
     user_type_id: string | null;
     role: string | null;
     scope_id: string | null;
+    last_login_at: string | null;
+    last_login_ip: string | null;
     created_at: string;
 };
 
@@ -65,7 +67,6 @@ const userForm = useForm({
 });
 
 const showAddUser = ref(false);
-const createdPassword = ref<string | null>(null);
 
 function saveSettings() {
     settingsForm.patch(update(props.tenant.id).url);
@@ -73,11 +74,7 @@ function saveSettings() {
 
 function addUser() {
     userForm.post(storeUser(props.tenant.id).url, {
-        onSuccess: (page) => {
-            const flash = (page.props as Record<string, unknown>)['flash'] as Record<string, string> | undefined;
-            const msg = flash?.success ?? '';
-            const match = msg.match(/Temporary password: (.+)$/);
-            if (match) createdPassword.value = match[1];
+        onSuccess: () => {
             userForm.reset();
             showAddUser.value = false;
         },
@@ -153,9 +150,6 @@ function formatDate(dateStr: string): string {
                     <!-- Add user form -->
                     <div v-if="showAddUser" class="mb-4 rounded-md border bg-muted/30 p-4">
                         <h3 class="mb-3 text-sm font-medium">New user</h3>
-                        <div v-if="createdPassword" class="mb-3 rounded-md border border-green-200 bg-green-50 p-3 text-sm text-green-800">
-                            User created. Temporary password: <code class="font-mono font-bold">{{ createdPassword }}</code>
-                        </div>
                         <form class="grid gap-3" @submit.prevent="addUser">
                             <div class="grid gap-1.5">
                                 <Label>Name</Label>
@@ -194,6 +188,8 @@ function formatDate(dateStr: string): string {
                                 <th class="pb-2 text-left font-medium">Email</th>
                                 <th class="pb-2 text-left font-medium">Type</th>
                                 <th class="pb-2 text-left font-medium">Role</th>
+                                <th class="pb-2 text-left font-medium">Last login</th>
+                                <th class="pb-2 text-left font-medium">Last IP</th>
                                 <th class="pb-2 text-left font-medium">Created</th>
                                 <th class="pb-2" />
                             </tr>
@@ -206,6 +202,8 @@ function formatDate(dateStr: string): string {
                                     <Badge variant="outline" class="text-xs">{{ user.user_type ?? '—' }}</Badge>
                                 </td>
                                 <td class="py-2.5 pr-3 text-muted-foreground">{{ user.role ?? '—' }}</td>
+                                <td class="py-2.5 pr-3 text-muted-foreground">{{ user.last_login_at ? formatDate(user.last_login_at) : '—' }}</td>
+                                <td class="py-2.5 pr-3 font-mono text-xs text-muted-foreground">{{ user.last_login_ip ?? '—' }}</td>
                                 <td class="py-2.5 pr-3 text-muted-foreground">{{ formatDate(user.created_at) }}</td>
                                 <td class="py-2.5 text-right">
                                     <div class="flex justify-end gap-1">
