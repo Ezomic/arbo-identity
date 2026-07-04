@@ -98,7 +98,7 @@ class FortifyServiceProvider extends ServiceProvider
             ->filter(fn (User $user) => $appSlug === '' || $this->canReachApp($user, $appSlug))
             ->map(fn (User $user) => [
                 'username' => $user->username,
-                'label' => $user->name.' ('.($user->userType?->name ?? $user->username).')',
+                'label' => $user->name.' ('.($user->userType->name ?? $user->username).')',
             ])
             ->values()
             ->all();

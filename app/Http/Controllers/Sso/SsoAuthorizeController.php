@@ -49,7 +49,7 @@ class SsoAuthorizeController extends Controller
                 return Inertia::location('/master');
             }
 
-            $appSlug = $authenticatedUser->userType?->app_slug ?? '';
+            $appSlug = $authenticatedUser->userType->app_slug ?? '';
         }
 
         abort_if($appSlug === '', 400, 'Missing "app" parameter.');
