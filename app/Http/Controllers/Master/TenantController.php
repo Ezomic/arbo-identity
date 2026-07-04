@@ -50,7 +50,7 @@ class TenantController extends Controller
             ->where('tenant_id', $id)
             ->with(['userType:id,name', 'role:id,name'])
             ->latest()
-            ->get(['id', 'uuid', 'name', 'email', 'user_type_id', 'role_id', 'scope_id', 'created_at']);
+            ->get(['id', 'uuid', 'name', 'email', 'user_type_id', 'role_id', 'scope_id', 'last_login_at', 'last_login_ip', 'created_at']);
 
         $userTypes = UserType::query()
             ->whereNotNull('app_slug')
@@ -66,6 +66,8 @@ class TenantController extends Controller
                 'user_type_id' => $u->user_type_id,
                 'role' => $u->role?->name,
                 'scope_id' => $u->scope_id,
+                'last_login_at' => $u->last_login_at,
+                'last_login_ip' => $u->last_login_ip,
                 'created_at' => $u->created_at,
             ]),
             'userTypes' => $userTypes,
