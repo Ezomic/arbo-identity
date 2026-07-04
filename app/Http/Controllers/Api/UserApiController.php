@@ -51,6 +51,7 @@ class UserApiController extends Controller
             'scope_id' => ['nullable', 'uuid'],
         ]);
 
+        /** @var UserType $userType */
         $userType = UserType::query()->findOrFail($data['user_type_id']);
         $role = Role::query()->where('app_slug', $userType->app_slug)->firstOrFail();
 

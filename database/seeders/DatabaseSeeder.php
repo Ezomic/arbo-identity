@@ -104,11 +104,11 @@ class DatabaseSeeder extends Seeder
             'linked_user_id' => $employerContact->id,
         ]);
 
-        $this->command?->info('Seeded tenant "Acme Arbodienst" with test users (Casey/Emma linked to each other):');
-        $this->command?->info('  dev / password   -> identity.test/master  (platform admin)');
-        $this->command?->info('  casey / password -> case-officers.test');
-        $this->command?->info('  emma / password  -> employers.test');
-        $this->command?->info('  ann / password   -> admin.test');
-        $this->command?->info('  derek / password -> doctors.test');
+        $this->command->info('Seeded tenant "Acme Arbodienst" with test users (Casey/Emma linked to each other):');
+        $this->command->info('  dev / password   -> identity.test/master  (platform admin)');
+        $this->command->info('  casey / password -> case-officers.test');
+        $this->command->info('  emma / password  -> employers.test');
+        $this->command->info('  ann / password   -> admin.test');
+        $this->command->info('  derek / password -> doctors.test');
     }
 }
