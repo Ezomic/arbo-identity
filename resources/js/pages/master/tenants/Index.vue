@@ -3,7 +3,7 @@ import { Head, Link } from '@inertiajs/vue3';
 import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { index, create, show } from '@/routes/master/tenants';
+import { create, show } from '@/routes/master/tenants';
 
 type Tenant = {
     id: string;
