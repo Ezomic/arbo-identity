@@ -4,6 +4,7 @@ use App\Http\Middleware\AuthenticateApiClient;
 use App\Http\Middleware\EnforceAbsoluteSessionTimeout;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\Require2FA;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,7 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'auth.api-client' => AuthenticateApiClient::class,
+            'require.2fa' => Require2FA::class,
         ]);
+
+        $middleware->appendToGroup('web', Require2FA::class);
 
         $middleware->web(append: [
             HandleAppearance::class,

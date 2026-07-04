@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
-#[Fillable(['name', 'slug', 'status'])]
+#[Fillable(['name', 'slug', 'status', 'require_2fa'])]
 class Tenant extends Model
 {
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected function casts(): array
+    {
+        return ['require_2fa' => 'boolean'];
+    }
 
     protected static function booted(): void
     {
