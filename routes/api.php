@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\TenantApiController;
 use App\Http\Controllers\Api\UserApiController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,4 +9,6 @@ Route::middleware(['auth.api-client', 'throttle:60,1'])->group(function () {
     Route::post('users', [UserApiController::class, 'store']);
     Route::put('users/{uuid}', [UserApiController::class, 'update']);
     Route::delete('users/{uuid}', [UserApiController::class, 'destroy']);
+
+    Route::patch('tenants/{id}', [TenantApiController::class, 'update']);
 });
