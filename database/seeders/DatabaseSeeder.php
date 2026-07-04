@@ -20,6 +20,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        User::query()->updateOrCreate(
+            ['username' => 'dev'],
+            [
+                'name' => 'Dev Admin',
+                'email' => 'dev@identity.test',
+                'password' => 'password',
+                'user_type_id' => 'platform_admin',
+                'tenant_id' => null,
+                'role_id' => null,
+                'scope_id' => null,
+            ],
+        );
+
         $appDefinitions = collect([
             ['slug' => 'case-officers', 'name' => 'Case Officers', 'base_url' => 'https://case-officers.test'],
             ['slug' => 'employers', 'name' => 'Employers', 'base_url' => 'https://employers.test'],
@@ -92,6 +105,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->command?->info('Seeded tenant "Acme Arbodienst" with test users (Casey/Emma linked to each other):');
+        $this->command?->info('  dev / password   -> identity.test/master  (platform admin)');
         $this->command?->info('  casey / password -> case-officers.test');
         $this->command?->info('  emma / password  -> employers.test');
         $this->command?->info('  ann / password   -> admin.test');

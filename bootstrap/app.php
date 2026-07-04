@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\AuthenticateApiClient;
 use App\Http\Middleware\EnforceAbsoluteSessionTimeout;
+use App\Http\Middleware\EnsurePlatformAdmin;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\Require2FA;
@@ -24,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.api-client' => AuthenticateApiClient::class,
             'require.2fa' => Require2FA::class,
+            'platform-admin' => EnsurePlatformAdmin::class,
         ]);
 
         $middleware->appendToGroup('web', Require2FA::class);
