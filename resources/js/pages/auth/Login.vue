@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
+import { usePasskeyVerify } from '@laravel/passkeys/vue';
+import { KeyRound } from '@lucide/vue';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
@@ -8,9 +10,10 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { store } from '@/routes/login';
-import { request } from '@/routes/password';
 import { store as devLoginStore } from '@/routes/dev-login';
+import { store } from '@/routes/login';
+import passkey from '@/routes/passkey';
+import { request } from '@/routes/password';
 import { create as createTenant } from '@/routes/tenants';
 
 defineOptions({
@@ -27,6 +30,33 @@ const props = defineProps<{
     redirectTo?: string;
     testAccounts: { username: string; label: string }[];
 }>();
+
+// The password login goes through Inertia's <Form>, whose Inertia::location()
+// response can hop cross-origin to the target portal (see SsoLoginResponse).
+// This fetch()-based passkey verify carries the same app/redirect_to along on
+// the query string so PasskeyLoginResponse can build the same SSO handoff —
+// then we navigate with window.location.href, not router.visit, for the same
+// cross-origin reason.
+const {
+    verify,
+    isLoading: passkeyLoading,
+    error: passkeyError,
+    isSupported: passkeySupported,
+} = usePasskeyVerify({
+    routes: {
+        submit: passkey.login.url({
+            query: {
+                ...(props.app ? { app: props.app } : {}),
+                ...(props.redirectTo ? { redirect_to: props.redirectTo } : {}),
+            },
+        }),
+    },
+    onSuccess: (response) => {
+        if (response.redirect) {
+            window.location.href = response.redirect;
+        }
+    },
+});
 </script>
 
 <template>
@@ -106,6 +136,27 @@ const props = defineProps<{
             </Button>
         </div>
     </Form>
+
+    <div v-if="passkeySupported" class="mt-6 flex flex-col gap-3">
+        <div class="flex items-center gap-3 text-xs text-muted-foreground">
+            <div class="h-px flex-1 bg-border" />
+            Or
+            <div class="h-px flex-1 bg-border" />
+        </div>
+
+        <Button
+            type="button"
+            variant="outline"
+            class="w-full"
+            :disabled="passkeyLoading"
+            @click="verify"
+        >
+            <Spinner v-if="passkeyLoading" />
+            <KeyRound v-else class="size-4" />
+            Sign in with a passkey
+        </Button>
+        <InputError :message="passkeyError ?? undefined" />
+    </div>
 
     <div class="mt-4 text-center text-sm text-muted-foreground">
         New organization?
