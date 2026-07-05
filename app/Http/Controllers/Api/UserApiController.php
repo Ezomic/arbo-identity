@@ -47,7 +47,7 @@ class UserApiController extends Controller
             'tenant_id' => ['required', 'uuid'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
-            'user_type_id' => ['required', 'string', Rule::exists('user_types', 'id')],
+            'user_type_id' => ['required', 'string', Rule::exists('user_types', 'id')->whereNotNull('app_slug')],
             'scope_id' => ['nullable', 'uuid'],
         ]);
 
@@ -81,7 +81,9 @@ class UserApiController extends Controller
 
     public function update(Request $request, string $uuid): JsonResponse
     {
-        $user = User::query()->where('uuid', $uuid)->firstOrFail();
+        $tenantId = $request->validate(['tenant_id' => ['required', 'uuid']])['tenant_id'];
+
+        $user = User::query()->where('uuid', $uuid)->where('tenant_id', $tenantId)->firstOrFail();
 
         $data = $request->validate([
             'name' => ['sometimes', 'string', 'max:255'],
@@ -99,9 +101,11 @@ class UserApiController extends Controller
         ]);
     }
 
-    public function destroy(string $uuid): Response
+    public function destroy(Request $request, string $uuid): Response
     {
-        User::query()->where('uuid', $uuid)->firstOrFail()->delete();
+        $tenantId = $request->validate(['tenant_id' => ['required', 'uuid']])['tenant_id'];
+
+        User::query()->where('uuid', $uuid)->where('tenant_id', $tenantId)->firstOrFail()->delete();
 
         return response()->noContent();
     }

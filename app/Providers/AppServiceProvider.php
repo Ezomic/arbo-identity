@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use App\Services\ActivityLogger;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Events\Failed;
@@ -38,11 +39,13 @@ class AppServiceProvider extends ServiceProvider
     protected function configureActivityLogging(): void
     {
         Event::listen(Login::class, function (Login $event) {
-            app(ActivityLogger::class)->log('login', $event->user->uuid ?? null);
+            $user = $event->user;
+            app(ActivityLogger::class)->log('login', $user instanceof User ? $user->uuid : null);
         });
 
         Event::listen(Logout::class, function (Logout $event) {
-            app(ActivityLogger::class)->log('logout', $event->user?->uuid ?? null);
+            $user = $event->user;
+            app(ActivityLogger::class)->log('logout', $user instanceof User ? $user->uuid : null);
         });
 
         Event::listen(Failed::class, function (Failed $event) {

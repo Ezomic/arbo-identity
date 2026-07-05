@@ -27,7 +27,7 @@ class Require2FA
         $tenant = Tenant::query()->find($user->tenant_id);
 
         if ($tenant?->require_2fa && ! $this->userHas2FA($user)) {
-            if ($request->routeIs('2fa.setup', '2fa.enable')) {
+            if ($this->isSetupRoute($request)) {
                 return $next($request);
             }
 
@@ -37,9 +37,25 @@ class Require2FA
         return $next($request);
     }
 
+    // Fortify's own two-factor.* and passkey.* endpoints (QR code, enable,
+    // confirm, recovery codes, password re-confirmation) are what the setup
+    // page itself calls to let a user actually complete setup — without
+    // this they'd be bounced back to 2fa.setup on every one of those
+    // requests and could never finish enabling anything.
+    private function isSetupRoute(Request $request): bool
+    {
+        if ($request->routeIs('2fa.setup', 'logout', 'password.confirm', 'password.confirm.store')) {
+            return true;
+        }
+
+        $name = $request->route()?->getName() ?? '';
+
+        return str_starts_with($name, 'two-factor.') || str_starts_with($name, 'passkey.');
+    }
+
     private function userHas2FA(User $user): bool
     {
-        if ($user->hasConfirmedTwoFactorAuthentication()) {
+        if ($user->hasEnabledTwoFactorAuthentication()) {
             return true;
         }
 
