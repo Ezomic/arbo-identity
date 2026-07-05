@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::store
-* @see app/Http/Controllers/Master/TenantUserController.php:17
+* @see app/Http/Controllers/Master/TenantUserController.php:20
 * @route '/master/tenants/{tenant}/users'
 */
 export const store = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -16,7 +16,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::store
-* @see app/Http/Controllers/Master/TenantUserController.php:17
+* @see app/Http/Controllers/Master/TenantUserController.php:20
 * @route '/master/tenants/{tenant}/users'
 */
 store.url = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -43,7 +43,7 @@ store.url = (args: { tenant: string | number } | [tenant: string | number ] | st
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::store
-* @see app/Http/Controllers/Master/TenantUserController.php:17
+* @see app/Http/Controllers/Master/TenantUserController.php:20
 * @route '/master/tenants/{tenant}/users'
 */
 store.post = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -53,7 +53,7 @@ store.post = (args: { tenant: string | number } | [tenant: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::store
-* @see app/Http/Controllers/Master/TenantUserController.php:17
+* @see app/Http/Controllers/Master/TenantUserController.php:20
 * @route '/master/tenants/{tenant}/users'
 */
 const storeForm = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -63,7 +63,7 @@ const storeForm = (args: { tenant: string | number } | [tenant: string | number 
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::store
-* @see app/Http/Controllers/Master/TenantUserController.php:17
+* @see app/Http/Controllers/Master/TenantUserController.php:20
 * @route '/master/tenants/{tenant}/users'
 */
 storeForm.post = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -75,7 +75,7 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:47
+* @see app/Http/Controllers/Master/TenantUserController.php:55
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 export const destroy = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -90,7 +90,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:47
+* @see app/Http/Controllers/Master/TenantUserController.php:55
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 destroy.url = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions) => {
@@ -116,7 +116,7 @@ destroy.url = (args: { tenant: string | number, uuid: string | number } | [tenan
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:47
+* @see app/Http/Controllers/Master/TenantUserController.php:55
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 destroy.delete = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -126,7 +126,7 @@ destroy.delete = (args: { tenant: string | number, uuid: string | number } | [te
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:47
+* @see app/Http/Controllers/Master/TenantUserController.php:55
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 const destroyForm = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -141,7 +141,7 @@ const destroyForm = (args: { tenant: string | number, uuid: string | number } | 
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:47
+* @see app/Http/Controllers/Master/TenantUserController.php:55
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 destroyForm.delete = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
