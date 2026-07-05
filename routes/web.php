@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\DevLoginController;
+use App\Http\Controllers\Auth\TwoFactorSetupController;
 use App\Http\Controllers\Sso\SsoAuthorizeController;
 use App\Http\Controllers\Sso\SsoLogoutController;
 use App\Http\Controllers\Tenants\TenantRegistrationController;
@@ -12,6 +13,8 @@ Route::post('/dev-login', [DevLoginController::class, 'store'])->name('dev-login
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('/', '/dashboard')->name('home');
     Route::get('dashboard', SsoAuthorizeController::class)->name('dashboard');
+
+    Route::get('2fa/setup', [TwoFactorSetupController::class, 'show'])->name('2fa.setup');
 });
 
 Route::get('/sso/authorize', SsoAuthorizeController::class)->name('sso.authorize');
@@ -28,4 +31,5 @@ Route::get('/.well-known/identity-public-key', fn () => response(
     ['Content-Type' => 'text/plain'],
 ))->name('sso.public-key');
 
+require __DIR__.'/master.php';
 require __DIR__.'/settings.php';

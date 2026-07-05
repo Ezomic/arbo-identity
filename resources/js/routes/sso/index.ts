@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 export const authorize = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ authorize.definition = {
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 authorize.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ authorize.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 authorize.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ authorize.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 authorize.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ authorize.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 const authorizeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const authorizeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> 
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 authorizeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ authorizeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:35
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
 * @route '/sso/authorize'
 */
 authorizeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -162,7 +162,7 @@ logoutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 logout.form = logoutForm
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 export const publicKey = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -176,7 +176,7 @@ publicKey.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 publicKey.url = (options?: RouteQueryOptions) => {
@@ -184,7 +184,7 @@ publicKey.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 publicKey.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -193,7 +193,7 @@ publicKey.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 publicKey.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -202,7 +202,7 @@ publicKey.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 const publicKeyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -211,7 +211,7 @@ const publicKeyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> 
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 publicKeyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -220,7 +220,7 @@ publicKeyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 })
 
 /**
-* @see routes/web.php:23
+* @see routes/web.php:28
 * @route '/.well-known/identity-public-key'
 */
 publicKeyForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
