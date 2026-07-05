@@ -163,6 +163,7 @@ return [
     'features' => [
         Features::resetPasswords(),
         Features::twoFactorAuthentication(['confirm' => true, 'confirmPassword' => true]),
+        Features::passkeys(['confirmPassword' => true]),
     ],
 
 ];
