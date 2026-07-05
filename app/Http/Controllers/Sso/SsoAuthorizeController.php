@@ -44,7 +44,12 @@ class SsoAuthorizeController extends Controller
         if ($appSlug === '' && Auth::check()) {
             /** @var User $authenticatedUser */
             $authenticatedUser = Auth::user();
-            $appSlug = $authenticatedUser->userType?->app_slug ?? '';
+
+            if ($authenticatedUser->user_type_id === 'platform_admin') {
+                return Inertia::location('/master');
+            }
+
+            $appSlug = $authenticatedUser->userType->app_slug ?? '';
         }
 
         abort_if($appSlug === '', 400, 'Missing "app" parameter.');

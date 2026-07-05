@@ -9,6 +9,9 @@ class ActivityLogger
 {
     public function __construct(private readonly Request $request) {}
 
+    /**
+     * @param array<string, mixed> $payload
+     */
     public function log(string $event, ?string $userId, array $payload = []): void
     {
         $data = [
@@ -19,7 +22,7 @@ class ActivityLogger
             'payload'    => $payload ?: null,
         ];
 
-        $data['checksum'] = hash_hmac('sha256', json_encode($data), config('app.key'));
+        $data['checksum'] = hash_hmac('sha256', (string) json_encode($data), config('app.key'));
 
         ActivityLog::create($data);
     }
