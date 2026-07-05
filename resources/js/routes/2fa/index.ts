@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 export const setup = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ setup.definition = {
 
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 setup.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ setup.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 setup.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ setup.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 setup.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ setup.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 const setupForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const setupForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 setupForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ setupForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Auth\TwoFactorSetupController::setup
-* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:13
+* @see app/Http/Controllers/Auth/TwoFactorSetupController.php:16
 * @route '/2fa/setup'
 */
 setupForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

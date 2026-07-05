@@ -20,7 +20,6 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 /**
  * @property int $id
  * @property string $uuid
- * @method bool hasConfirmedTwoFactorAuthentication()
  * @property string $name
  * @property string $username
  * @property string $email
