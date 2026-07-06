@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\AccountSuspendedException;
 use App\Exceptions\UserHasNoAccessToAppException;
 use App\Models\User;
 use Firebase\JWT\JWT;
@@ -24,6 +25,8 @@ class JwtIssuer
     {
         $targetUser = $this->resolveUserForApp($authenticatedUser, $appSlug);
 
+        $this->assertNotSuspended($targetUser);
+
         $now = time();
 
         $payload = [
@@ -34,6 +37,11 @@ class JwtIssuer
             'exp' => $now + config('sso.token_ttl_seconds'),
             'email' => $targetUser->email,
             'name' => $targetUser->name,
+            'first_name' => $targetUser->first_name,
+            'last_name' => $targetUser->last_name,
+            'phone_number' => $targetUser->phone_number,
+            'preferred_locale' => $targetUser->preferred_locale,
+            'timezone' => $targetUser->timezone,
             'role' => $targetUser->role?->name,
             'tenant_id' => $targetUser->tenant_id,
             'tenant_name' => $targetUser->tenant?->name,
@@ -56,6 +64,8 @@ class JwtIssuer
      */
     public function issueForImpersonation(User $targetUser, string $appSlug): string
     {
+        $this->assertNotSuspended($targetUser);
+
         $now = time();
 
         $payload = [
@@ -66,6 +76,11 @@ class JwtIssuer
             'exp' => $now + config('sso.token_ttl_seconds'),
             'email' => $targetUser->email,
             'name' => $targetUser->name,
+            'first_name' => $targetUser->first_name,
+            'last_name' => $targetUser->last_name,
+            'phone_number' => $targetUser->phone_number,
+            'preferred_locale' => $targetUser->preferred_locale,
+            'timezone' => $targetUser->timezone,
             'role' => $targetUser->role?->name,
             'tenant_id' => $targetUser->tenant_id,
             'tenant_name' => $targetUser->tenant?->name,
@@ -96,6 +111,13 @@ class JwtIssuer
         }
 
         throw new UserHasNoAccessToAppException($appSlug);
+    }
+
+    private function assertNotSuspended(User $user): void
+    {
+        if ($user->suspended_at !== null) {
+            throw new AccountSuspendedException;
+        }
     }
 
     /**

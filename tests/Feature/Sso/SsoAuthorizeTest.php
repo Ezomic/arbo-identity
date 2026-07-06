@@ -125,3 +125,24 @@ test('a user with no access and no link to the target app is rejected', function
         'redirect_to' => 'https://employers.test/sso/callback',
     ]))->assertStatus(500);
 });
+
+test('a suspended user is logged out and sent to the login form instead of receiving a token', function () {
+    seedAppDefinition('case-officers', 'https://case-officers.test');
+    $tenant = Tenant::query()->create(['name' => 'Acme Arbodienst', 'slug' => 'acme-arbo']);
+    $role = Role::query()->create(['app_slug' => 'case-officers', 'name' => 'case_officer']);
+
+    $user = User::factory()->create([
+        'user_type_id' => 'arbo',
+        'role_id' => $role->id,
+        'tenant_id' => $tenant->id,
+        'suspended_at' => now(),
+    ]);
+
+    $response = $this->actingAs($user)->get('/sso/authorize?'.http_build_query([
+        'app' => 'case-officers',
+        'redirect_to' => 'https://case-officers.test/sso/callback',
+    ]));
+
+    $response->assertRedirect(route('login'));
+    $this->assertGuest();
+});
