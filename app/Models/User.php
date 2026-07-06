@@ -21,8 +21,15 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property int $id
  * @property string $uuid
  * @property string $name
+ * @property string|null $first_name
+ * @property string|null $last_name
  * @property string $username
  * @property string $email
+ * @property string|null $phone_number
+ * @property string $preferred_locale
+ * @property string $timezone
+ * @property Carbon|null $suspended_at
+ * @property bool $must_change_password
  * @property string|null $user_type_id
  * @property int|null $role_id
  * @property string|null $tenant_id
@@ -40,7 +47,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'username', 'email', 'password', 'user_type_id', 'role_id', 'tenant_id', 'scope_id', 'last_login_at', 'last_login_ip', 'failed_login_count', 'locked_until'])]
+#[Fillable(['name', 'first_name', 'last_name', 'username', 'email', 'phone_number', 'preferred_locale', 'timezone', 'suspended_at', 'must_change_password', 'password', 'user_type_id', 'role_id', 'tenant_id', 'scope_id', 'last_login_at', 'last_login_ip', 'failed_login_count', 'locked_until'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -60,6 +67,8 @@ class User extends Authenticatable implements PasskeyUser
             'two_factor_confirmed_at' => 'datetime',
             'last_login_at' => 'datetime',
             'locked_until' => 'datetime',
+            'suspended_at' => 'datetime',
+            'must_change_password' => 'boolean',
         ];
     }
 
