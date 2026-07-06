@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\AccountSuspendedException;
 use App\Http\Middleware\AuthenticateApiClient;
 use App\Http\Middleware\EnforceAbsoluteSessionTimeout;
 use App\Http\Middleware\EnsurePlatformAdmin;
@@ -11,6 +12,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -41,4 +43,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        $exceptions->render(function (AccountSuspendedException $e, Request $request) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->with('status', 'This account has been suspended.');
+        });
     })->create();
