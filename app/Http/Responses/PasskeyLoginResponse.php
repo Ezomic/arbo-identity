@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Services\JwtIssuer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Laravel\Passkeys\Contracts\PasskeyLoginResponse as PasskeyLoginResponseContract;
 
 class PasskeyLoginResponse implements PasskeyLoginResponseContract
@@ -44,7 +43,7 @@ class PasskeyLoginResponse implements PasskeyLoginResponseContract
 
         $token = $this->jwtIssuer->issueFor($user, $appSlug);
 
-        $redirectTo = $this->safeRedirectTarget($request, $app->base_url);
+        $redirectTo = $this->safeRedirectTarget($request, $app);
 
         return response()->json([
             'redirect' => $redirectTo.(str_contains($redirectTo, '?') ? '&' : '?').'token='.$token,
@@ -55,14 +54,14 @@ class PasskeyLoginResponse implements PasskeyLoginResponseContract
      * Same open-redirect guard as SsoLoginResponse: only ever send the
      * browser into the target app's own domain.
      */
-    private function safeRedirectTarget(Request $request, string $baseUrl): string
+    private function safeRedirectTarget(Request $request, AppDefinition $app): string
     {
         $requested = $request->string('redirect_to')->trim()->value();
 
-        if ($requested !== '' && Str::startsWith($requested, $baseUrl)) {
+        if ($requested !== '' && $app->ownsUrl($requested)) {
             return $requested;
         }
 
-        return rtrim($baseUrl, '/').'/sso/callback';
+        return rtrim($app->base_url, '/').'/sso/callback';
     }
 }

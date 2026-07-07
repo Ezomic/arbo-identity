@@ -6,7 +6,6 @@ use App\Models\AppDefinition;
 use App\Models\User;
 use App\Services\JwtIssuer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +36,7 @@ class SsoLoginResponse implements LoginResponseContract
 
         $token = $this->jwtIssuer->issueFor($user, $appSlug);
 
-        $redirectTo = $this->safeRedirectTarget($request, $app->base_url);
+        $redirectTo = $this->safeRedirectTarget($request, $app);
 
         // Inertia::location() (not redirect()->away()): the login form is
         // submitted via Inertia's <Form>, which visits via fetch() — fetch
@@ -52,14 +51,14 @@ class SsoLoginResponse implements LoginResponseContract
      * the query string says — an open-redirect guard on the one place this
      * service sends a browser to a URL it doesn't fully control itself.
      */
-    private function safeRedirectTarget(Request $request, string $baseUrl): string
+    private function safeRedirectTarget(Request $request, AppDefinition $app): string
     {
         $requested = $request->string('redirect_to')->trim()->value();
 
-        if ($requested !== '' && Str::startsWith($requested, $baseUrl)) {
+        if ($requested !== '' && $app->ownsUrl($requested)) {
             return $requested;
         }
 
-        return rtrim($baseUrl, '/').'/sso/callback';
+        return rtrim($app->base_url, '/').'/sso/callback';
     }
 }
