@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 export const authorize = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ authorize.definition = {
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 authorize.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ authorize.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 authorize.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ authorize.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 authorize.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ authorize.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 const authorizeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const authorizeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> 
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 authorizeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ authorizeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 
 /**
 * @see \App\Http\Controllers\Sso\SsoAuthorizeController::__invoke
-* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:39
+* @see app/Http/Controllers/Sso/SsoAuthorizeController.php:38
 * @route '/sso/authorize'
 */
 authorizeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
