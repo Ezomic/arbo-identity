@@ -34,7 +34,15 @@ class GenerateSsoKeysCommand extends Command
         }
 
         openssl_pkey_export($resource, $privateKey);
-        $publicKey = openssl_pkey_get_details($resource)['key'];
+        $details = openssl_pkey_get_details($resource);
+
+        if ($details === false) {
+            $this->error('Failed to read generated keypair: '.openssl_error_string());
+
+            return self::FAILURE;
+        }
+
+        $publicKey = $details['key'];
 
         File::ensureDirectoryExists(dirname($privateKeyPath));
         File::put($privateKeyPath, $privateKey);
