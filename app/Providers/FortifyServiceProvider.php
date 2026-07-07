@@ -7,6 +7,7 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Responses\PasskeyLoginResponse;
 use App\Http\Responses\SsoLoginResponse;
 use App\Models\User;
+use App\Services\ActivityLogger;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -18,6 +19,7 @@ use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Passkeys\Contracts\PasskeyLoginResponse as PasskeyLoginResponseContract;
+use Symfony\Component\HttpFoundation\Response;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -132,7 +134,7 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 
-            return Limit::perMinute(5)->by($throttleKey);
+            return Limit::perMinute(5)->by($throttleKey)->response($this->logAndRespond('login'));
         });
 
         RateLimiter::for('passkeys', function (Request $request) {
@@ -142,11 +144,28 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('password-reset', function (Request $request) {
-            return Limit::perHour(3)->by($request->ip());
+            return Limit::perHour(3)->by($request->ip())->response($this->logAndRespond('password_reset'));
         });
 
         RateLimiter::for('tenant-registration', function (Request $request) {
-            return Limit::perHour(3)->by($request->ip());
+            return Limit::perHour(3)->by($request->ip())->response($this->logAndRespond('tenant_registration'));
         });
+
+        RateLimiter::for('dev-login', function (Request $request) {
+            return Limit::perMinute(10)->by($request->ip())->response($this->logAndRespond('dev_login'));
+        });
+    }
+
+    /**
+     * Rate-limit hits on public/auth endpoints are logged as they may
+     * indicate an attack, on top of the standard 429 response.
+     */
+    private function logAndRespond(string $event): callable
+    {
+        return function (Request $request, array $headers) use ($event): Response {
+            app(ActivityLogger::class)->log("rate_limit_hit.{$event}", null, ['path' => $request->path()]);
+
+            return response('Too Many Attempts.', 429, $headers);
+        };
     }
 }
