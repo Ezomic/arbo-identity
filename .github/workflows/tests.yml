@@ -54,6 +54,9 @@ jobs:
       - name: Generate Application Key
         run: php artisan key:generate
 
+      - name: Generate SSO Signing Keys
+        run: php artisan sso:generate-keys
+
       - name: Build Assets
         run: npm run build
 

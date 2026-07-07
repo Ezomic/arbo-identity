@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\Fortify\AuthenticateLoginAttempt;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Responses\PasskeyLoginResponse;
 use App\Http\Responses\SsoLoginResponse;
@@ -45,6 +46,7 @@ class FortifyServiceProvider extends ServiceProvider
     private function configureActions(): void
     {
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+        Fortify::authenticateUsing(fn (Request $request) => app(AuthenticateLoginAttempt::class)->handle($request));
     }
 
     /**
