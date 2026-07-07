@@ -75,7 +75,7 @@ class User extends Authenticatable implements PasskeyUser
     protected static function booted(): void
     {
         static::creating(function (User $user): void {
-            $user->uuid ??= (string) Str::uuid();
+            $user->uuid ??= (string) Str::uuid7();
         });
     }
 

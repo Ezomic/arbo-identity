@@ -22,7 +22,7 @@ class Tenant extends Model
     protected static function booted(): void
     {
         static::creating(function (Tenant $tenant): void {
-            $tenant->id ??= (string) Str::uuid();
+            $tenant->id ??= (string) Str::uuid7();
         });
     }
 
