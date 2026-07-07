@@ -8,7 +8,7 @@ use App\Http\Controllers\Tenants\TenantRegistrationController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/dev-login', [DevLoginController::class, 'store'])->name('dev-login.store');
+Route::post('/dev-login', [DevLoginController::class, 'store'])->middleware('throttle:dev-login')->name('dev-login.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('/', '/dashboard')->name('home');
