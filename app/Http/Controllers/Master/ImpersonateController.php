@@ -26,6 +26,8 @@ class ImpersonateController extends Controller
             ->with(['userType.appDefinition', 'role', 'tenant'])
             ->firstOrFail();
 
+        abort_if($targetUser->user_type_id === 'platform_admin', 403, 'Platform admins cannot be impersonated.');
+
         $appSlug = $targetUser->userType?->app_slug;
 
         abort_if($appSlug === null, 422, 'This user has no portal to impersonate into.');

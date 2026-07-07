@@ -9,7 +9,6 @@ use App\Services\ActivityLogger;
 use App\Services\JwtIssuer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,7 +71,7 @@ class SsoAuthorizeController extends Controller
 
         $this->activityLogger->log('sso_handoff', $user->uuid ?? null, ['target_app' => $appSlug]);
 
-        $target = $this->safeRedirectTarget($redirectTo, $app->base_url);
+        $target = $this->safeRedirectTarget($redirectTo, $app);
 
         return Inertia::location($target.(str_contains($target, '?') ? '&' : '?').'token='.$token);
     }
@@ -81,12 +80,12 @@ class SsoAuthorizeController extends Controller
      * Same open-redirect guard as SsoLoginResponse: only ever send the
      * browser into the target app's own domain.
      */
-    private function safeRedirectTarget(string $redirectTo, string $baseUrl): string
+    private function safeRedirectTarget(string $redirectTo, AppDefinition $app): string
     {
-        if ($redirectTo !== '' && Str::startsWith($redirectTo, $baseUrl)) {
+        if ($redirectTo !== '' && $app->ownsUrl($redirectTo)) {
             return $redirectTo;
         }
 
-        return rtrim($baseUrl, '/').'/sso/callback';
+        return rtrim($app->base_url, '/').'/sso/callback';
     }
 }
