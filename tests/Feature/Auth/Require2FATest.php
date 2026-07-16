@@ -62,3 +62,18 @@ test('a user who has since confirmed 2fa is no longer redirected', function () {
         ->get(route('security.edit'))
         ->assertOk();
 });
+
+test('a registered passkey alone does not satisfy require_2fa — TOTP is still required', function () {
+    $tenant = Tenant::query()->create(['name' => 'Acme', 'slug' => 'acme', 'require_2fa' => true]);
+    $user = User::factory()->create(['tenant_id' => $tenant->id]);
+    $user->passkeys()->create([
+        'name' => 'MacBook',
+        'credential_id' => 'cred-1',
+        'credential' => ['type' => 'public-key'],
+    ]);
+
+    $this->actingAs($user)
+        ->withSession(['auth.password_confirmed_at' => time()])
+        ->get(route('security.edit'))
+        ->assertRedirect(route('2fa.setup'));
+});
