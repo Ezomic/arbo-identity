@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\UserInvite;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserType;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -55,18 +58,19 @@ class UserApiController extends Controller
         $userType = UserType::query()->findOrFail($data['user_type_id']);
         $role = Role::query()->where('app_slug', $userType->app_slug)->firstOrFail();
 
-        $password = Str::password(12);
-
         $user = User::query()->create([
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => Str::slug($data['name']).'-'.Str::random(4),
-            'password' => $password,
             'user_type_id' => $data['user_type_id'],
             'role_id' => $role->id,
             'tenant_id' => $data['tenant_id'],
             'scope_id' => $data['scope_id'] ?? null,
         ]);
+
+        $enrollmentUrl = URL::temporarySignedRoute('passkey.enroll', now()->addHours(24), ['user' => $user->id]);
+
+        Mail::to($user)->send(new UserInvite($user, $enrollmentUrl));
 
         return response()->json([
             'id' => $user->uuid,
@@ -75,7 +79,6 @@ class UserApiController extends Controller
             'user_type_id' => $user->user_type_id,
             'role_name' => $role->name,
             'scope_id' => $user->scope_id,
-            'temporary_password' => $password,
         ], 201);
     }
 

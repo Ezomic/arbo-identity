@@ -12,9 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 class Require2FA
 {
     // If the user's tenant has require_2fa = true and the user has not yet
-    // confirmed any second factor, redirect them to the 2FA setup page.
-    // Passkeys satisfy the requirement (stored in passkeys table) — checked
-    // by PasskeyAuthenticatable::hasPasskeys().
+    // confirmed TOTP two-factor, redirect them to the 2FA setup page. A
+    // passkey no longer satisfies this on its own — since ARBO-89 removed
+    // password login, a passkey is now every user's mandatory *primary*
+    // credential (they can't be authenticated without one), so it no
+    // longer signals an extra factor on top of anything. require_2fa now
+    // means "TOTP required in addition to your passkey."
     public function handle(Request $request, Closure $next): Response
     {
         /** @var User|null $user */
@@ -55,10 +58,6 @@ class Require2FA
 
     private function userHas2FA(User $user): bool
     {
-        if ($user->hasEnabledTwoFactorAuthentication()) {
-            return true;
-        }
-
-        return $user->passkeys()->exists();
+        return $user->hasEnabledTwoFactorAuthentication();
     }
 }

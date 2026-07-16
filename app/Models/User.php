@@ -29,13 +29,12 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string $preferred_locale
  * @property string $timezone
  * @property Carbon|null $suspended_at
- * @property bool $must_change_password
  * @property string|null $user_type_id
  * @property int|null $role_id
  * @property string|null $tenant_id
  * @property string|null $scope_id
  * @property Carbon|null $email_verified_at
- * @property string $password
+ * @property string|null $password
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
@@ -47,7 +46,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
-#[Fillable(['name', 'first_name', 'last_name', 'username', 'email', 'phone_number', 'preferred_locale', 'timezone', 'suspended_at', 'must_change_password', 'password', 'user_type_id', 'role_id', 'tenant_id', 'scope_id', 'last_login_at', 'last_login_ip', 'failed_login_count', 'locked_until'])]
+#[Fillable(['name', 'first_name', 'last_name', 'username', 'email', 'phone_number', 'preferred_locale', 'timezone', 'suspended_at', 'password', 'user_type_id', 'role_id', 'tenant_id', 'scope_id', 'last_login_at', 'last_login_ip', 'failed_login_count', 'locked_until'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
@@ -68,7 +67,6 @@ class User extends Authenticatable implements PasskeyUser
             'last_login_at' => 'datetime',
             'locked_until' => 'datetime',
             'suspended_at' => 'datetime',
-            'must_change_password' => 'boolean',
         ];
     }
 

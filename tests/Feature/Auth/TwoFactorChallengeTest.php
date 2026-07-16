@@ -35,10 +35,11 @@ class TwoFactorChallengeTest extends TestCase
 
         $user = User::factory()->withTwoFactor()->create();
 
-        $this->post(route('login'), [
-            'username' => $user->username,
-            'password' => 'password',
-        ]);
+        // Passkey login never routes through Fortify's own "pending 2FA"
+        // intermediate state (it authenticates immediately) — seed the
+        // session key Fortify's RedirectIfTwoFactorAuthenticatable would
+        // normally set, to exercise the challenge page on its own terms.
+        $this->withSession(['login.id' => $user->id]);
 
         $this->get(route('two-factor.login'))
             ->assertOk()

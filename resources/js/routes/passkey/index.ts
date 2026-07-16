@@ -500,6 +500,111 @@ destroyForm.delete = (args: { passkey: number | { id: number } } | [passkey: num
 
 destroy.form = destroyForm
 
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+export const enroll = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: enroll.url(args, options),
+    method: 'get',
+})
+
+enroll.definition = {
+    methods: ["get","head"],
+    url: '/enroll-passkey/{user}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+enroll.url = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { user: args }
+    }
+
+    if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+        args = { user: args.id }
+    }
+
+    if (Array.isArray(args)) {
+        args = {
+            user: args[0],
+        }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+        user: typeof args.user === 'object'
+        ? args.user.id
+        : args.user,
+    }
+
+    return enroll.definition.url
+            .replace('{user}', parsedArgs.user.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+enroll.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: enroll.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+enroll.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: enroll.url(args, options),
+    method: 'head',
+})
+
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+const enrollForm = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: enroll.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+enrollForm.get = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: enroll.url(args, options),
+    method: 'get',
+})
+
+/**
+* @see \App\Http\Controllers\Auth\PasskeyEnrollmentController::enroll
+* @see app/Http/Controllers/Auth/PasskeyEnrollmentController.php:25
+* @route '/enroll-passkey/{user}'
+*/
+enrollForm.head = (args: { user: number | { id: number } } | [user: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: enroll.url(args, {
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+enroll.form = enrollForm
+
 const passkey = {
     loginOptions: Object.assign(loginOptions, loginOptions),
     login: Object.assign(login, login),
@@ -508,6 +613,7 @@ const passkey = {
     registrationOptions: Object.assign(registrationOptions, registrationOptions),
     store: Object.assign(store, store),
     destroy: Object.assign(destroy, destroy),
+    enroll: Object.assign(enroll, enroll),
 }
 
 export default passkey

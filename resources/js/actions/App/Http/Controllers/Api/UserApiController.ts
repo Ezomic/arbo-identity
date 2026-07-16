@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -35,7 +35,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -45,7 +45,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -55,7 +55,7 @@ const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -65,7 +65,7 @@ indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::index
-* @see app/Http/Controllers/Api/UserApiController.php:17
+* @see app/Http/Controllers/Api/UserApiController.php:20
 * @route '/api/users'
 */
 indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -82,7 +82,7 @@ index.form = indexForm
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::store
-* @see app/Http/Controllers/Api/UserApiController.php:44
+* @see app/Http/Controllers/Api/UserApiController.php:47
 * @route '/api/users'
 */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -97,7 +97,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::store
-* @see app/Http/Controllers/Api/UserApiController.php:44
+* @see app/Http/Controllers/Api/UserApiController.php:47
 * @route '/api/users'
 */
 store.url = (options?: RouteQueryOptions) => {
@@ -106,7 +106,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::store
-* @see app/Http/Controllers/Api/UserApiController.php:44
+* @see app/Http/Controllers/Api/UserApiController.php:47
 * @route '/api/users'
 */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -116,7 +116,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::store
-* @see app/Http/Controllers/Api/UserApiController.php:44
+* @see app/Http/Controllers/Api/UserApiController.php:47
 * @route '/api/users'
 */
 const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -126,7 +126,7 @@ const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => 
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::store
-* @see app/Http/Controllers/Api/UserApiController.php:44
+* @see app/Http/Controllers/Api/UserApiController.php:47
 * @route '/api/users'
 */
 storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -138,7 +138,7 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::update
-* @see app/Http/Controllers/Api/UserApiController.php:81
+* @see app/Http/Controllers/Api/UserApiController.php:85
 * @route '/api/users/{uuid}'
 */
 export const update = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -153,7 +153,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::update
-* @see app/Http/Controllers/Api/UserApiController.php:81
+* @see app/Http/Controllers/Api/UserApiController.php:85
 * @route '/api/users/{uuid}'
 */
 update.url = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -180,7 +180,7 @@ update.url = (args: { uuid: string | number } | [uuid: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::update
-* @see app/Http/Controllers/Api/UserApiController.php:81
+* @see app/Http/Controllers/Api/UserApiController.php:85
 * @route '/api/users/{uuid}'
 */
 update.put = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -190,7 +190,7 @@ update.put = (args: { uuid: string | number } | [uuid: string | number ] | strin
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::update
-* @see app/Http/Controllers/Api/UserApiController.php:81
+* @see app/Http/Controllers/Api/UserApiController.php:85
 * @route '/api/users/{uuid}'
 */
 const updateForm = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -205,7 +205,7 @@ const updateForm = (args: { uuid: string | number } | [uuid: string | number ] |
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::update
-* @see app/Http/Controllers/Api/UserApiController.php:81
+* @see app/Http/Controllers/Api/UserApiController.php:85
 * @route '/api/users/{uuid}'
 */
 updateForm.put = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -222,7 +222,7 @@ update.form = updateForm
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::destroy
-* @see app/Http/Controllers/Api/UserApiController.php:101
+* @see app/Http/Controllers/Api/UserApiController.php:107
 * @route '/api/users/{uuid}'
 */
 export const destroy = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -237,7 +237,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::destroy
-* @see app/Http/Controllers/Api/UserApiController.php:101
+* @see app/Http/Controllers/Api/UserApiController.php:107
 * @route '/api/users/{uuid}'
 */
 destroy.url = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -264,7 +264,7 @@ destroy.url = (args: { uuid: string | number } | [uuid: string | number ] | stri
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::destroy
-* @see app/Http/Controllers/Api/UserApiController.php:101
+* @see app/Http/Controllers/Api/UserApiController.php:107
 * @route '/api/users/{uuid}'
 */
 destroy.delete = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -274,7 +274,7 @@ destroy.delete = (args: { uuid: string | number } | [uuid: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::destroy
-* @see app/Http/Controllers/Api/UserApiController.php:101
+* @see app/Http/Controllers/Api/UserApiController.php:107
 * @route '/api/users/{uuid}'
 */
 const destroyForm = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -289,7 +289,7 @@ const destroyForm = (args: { uuid: string | number } | [uuid: string | number ] 
 
 /**
 * @see \App\Http\Controllers\Api\UserApiController::destroy
-* @see app/Http/Controllers/Api/UserApiController.php:101
+* @see app/Http/Controllers/Api/UserApiController.php:107
 * @route '/api/users/{uuid}'
 */
 destroyForm.delete = (args: { uuid: string | number } | [uuid: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

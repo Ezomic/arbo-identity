@@ -75,7 +75,7 @@ store.form = storeForm
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:55
+* @see app/Http/Controllers/Master/TenantUserController.php:51
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 export const destroy = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -90,7 +90,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:55
+* @see app/Http/Controllers/Master/TenantUserController.php:51
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 destroy.url = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions) => {
@@ -116,7 +116,7 @@ destroy.url = (args: { tenant: string | number, uuid: string | number } | [tenan
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:55
+* @see app/Http/Controllers/Master/TenantUserController.php:51
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 destroy.delete = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -126,7 +126,7 @@ destroy.delete = (args: { tenant: string | number, uuid: string | number } | [te
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:55
+* @see app/Http/Controllers/Master/TenantUserController.php:51
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 const destroyForm = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -141,7 +141,7 @@ const destroyForm = (args: { tenant: string | number, uuid: string | number } | 
 
 /**
 * @see \App\Http\Controllers\Master\TenantUserController::destroy
-* @see app/Http/Controllers/Master/TenantUserController.php:55
+* @see app/Http/Controllers/Master/TenantUserController.php:51
 * @route '/master/tenants/{tenant}/users/{uuid}'
 */
 destroyForm.delete = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -156,6 +156,79 @@ destroyForm.delete = (args: { tenant: string | number, uuid: string | number } |
 
 destroy.form = destroyForm
 
-const TenantUserController = { store, destroy }
+/**
+* @see \App\Http\Controllers\Master\TenantUserController::reissueEnrollment
+* @see app/Http/Controllers/Master/TenantUserController.php:66
+* @route '/master/tenants/{tenant}/users/{uuid}/reissue-enrollment'
+*/
+export const reissueEnrollment = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: reissueEnrollment.url(args, options),
+    method: 'post',
+})
+
+reissueEnrollment.definition = {
+    methods: ["post"],
+    url: '/master/tenants/{tenant}/users/{uuid}/reissue-enrollment',
+} satisfies RouteDefinition<["post"]>
+
+/**
+* @see \App\Http\Controllers\Master\TenantUserController::reissueEnrollment
+* @see app/Http/Controllers/Master/TenantUserController.php:66
+* @route '/master/tenants/{tenant}/users/{uuid}/reissue-enrollment'
+*/
+reissueEnrollment.url = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions) => {
+    if (Array.isArray(args)) {
+        args = {
+            tenant: args[0],
+            uuid: args[1],
+        }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+        tenant: args.tenant,
+        uuid: args.uuid,
+    }
+
+    return reissueEnrollment.definition.url
+            .replace('{tenant}', parsedArgs.tenant.toString())
+            .replace('{uuid}', parsedArgs.uuid.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \App\Http\Controllers\Master\TenantUserController::reissueEnrollment
+* @see app/Http/Controllers/Master/TenantUserController.php:66
+* @route '/master/tenants/{tenant}/users/{uuid}/reissue-enrollment'
+*/
+reissueEnrollment.post = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteDefinition<'post'> => ({
+    url: reissueEnrollment.url(args, options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\Master\TenantUserController::reissueEnrollment
+* @see app/Http/Controllers/Master/TenantUserController.php:66
+* @route '/master/tenants/{tenant}/users/{uuid}/reissue-enrollment'
+*/
+const reissueEnrollmentForm = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: reissueEnrollment.url(args, options),
+    method: 'post',
+})
+
+/**
+* @see \App\Http\Controllers\Master\TenantUserController::reissueEnrollment
+* @see app/Http/Controllers/Master/TenantUserController.php:66
+* @route '/master/tenants/{tenant}/users/{uuid}/reissue-enrollment'
+*/
+reissueEnrollmentForm.post = (args: { tenant: string | number, uuid: string | number } | [tenant: string | number, uuid: string | number ], options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+    action: reissueEnrollment.url(args, options),
+    method: 'post',
+})
+
+reissueEnrollment.form = reissueEnrollmentForm
+
+const TenantUserController = { store, destroy, reissueEnrollment }
 
 export default TenantUserController

@@ -3,8 +3,9 @@
 use App\Models\Role;
 use App\Models\Tenant;
 use App\Models\User;
+use Inertia\Testing\AssertableInertia as Assert;
 
-test('creating an organization creates a tenant and one fully-privileged admin account', function () {
+test('creating an organization creates a tenant and one fully-privileged admin account, and starts passkey enrollment', function () {
     Role::query()->create(['app_slug' => 'admin', 'name' => 'application_manager']);
 
     $response = $this->post('/tenants', [
@@ -12,11 +13,9 @@ test('creating an organization creates a tenant and one fully-privileged admin a
         'name' => 'Ada Admin',
         'username' => 'ada',
         'email' => 'ada@acme-test.test',
-        'password' => 'password123',
-        'password_confirmation' => 'password123',
     ]);
 
-    $response->assertRedirect();
+    $response->assertOk()->assertInertia(fn (Assert $page) => $page->component('auth/EnrollPasskey'));
 
     $tenant = Tenant::query()->where('name', 'Acme Test BV')->first();
     expect($tenant)->not->toBeNull();
@@ -25,9 +24,11 @@ test('creating an organization creates a tenant and one fully-privileged admin a
     expect($user)->not->toBeNull()
         ->and($user->user_type_id)->toBe('application_manager')
         ->and($user->tenant_id)->toBe($tenant->id)
-        ->and($user->role->name)->toBe('application_manager');
+        ->and($user->role->name)->toBe('application_manager')
+        ->and($user->password)->toBeNull();
 
     $this->assertAuthenticatedAs($user);
+    expect(session('auth.password_confirmed_at'))->not->toBeNull();
 });
 
 test('tenant name must be unique', function () {
@@ -39,7 +40,5 @@ test('tenant name must be unique', function () {
         'name' => 'Ada Admin',
         'username' => 'ada',
         'email' => 'ada@acme-test.test',
-        'password' => 'password123',
-        'password_confirmation' => 'password123',
     ])->assertSessionHasErrors('tenant_name');
 });

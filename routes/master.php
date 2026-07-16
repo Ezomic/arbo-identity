@@ -16,6 +16,9 @@ Route::middleware(['auth', 'platform-admin'])->prefix('master')->name('master.')
     Route::delete('tenants/{tenant}/users/{uuid}', [TenantUserController::class, 'destroy'])
         ->name('tenants.users.destroy');
 
+    Route::post('tenants/{tenant}/users/{uuid}/reissue-enrollment', [TenantUserController::class, 'reissueEnrollment'])
+        ->name('tenants.users.reissue-enrollment');
+
     Route::post('impersonate/{uuid}', [ImpersonateController::class, 'store'])
         ->name('impersonate');
 });

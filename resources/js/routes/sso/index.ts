@@ -162,7 +162,7 @@ logoutForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => (
 logout.form = logoutForm
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 export const publicKey = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -176,7 +176,7 @@ publicKey.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 publicKey.url = (options?: RouteQueryOptions) => {
@@ -184,7 +184,7 @@ publicKey.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 publicKey.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -193,7 +193,7 @@ publicKey.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 publicKey.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -202,7 +202,7 @@ publicKey.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 const publicKeyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -211,7 +211,7 @@ const publicKeyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> 
 })
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 publicKeyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -220,7 +220,7 @@ publicKeyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> =>
 })
 
 /**
-* @see routes/web.php:28
+* @see routes/web.php:33
 * @route '/.well-known/identity-public-key'
 */
 publicKeyForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

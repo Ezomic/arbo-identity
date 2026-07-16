@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\DevLoginController;
+use App\Http\Controllers\Auth\PasskeyEnrollmentController;
 use App\Http\Controllers\Auth\TwoFactorSetupController;
 use App\Http\Controllers\Sso\SsoAuthorizeController;
 use App\Http\Controllers\Sso\SsoLogoutController;
@@ -9,6 +10,10 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/dev-login', [DevLoginController::class, 'store'])->middleware('throttle:dev-login')->name('dev-login.store');
+
+Route::get('enroll-passkey/{user}', [PasskeyEnrollmentController::class, 'show'])
+    ->middleware('signed')
+    ->name('passkey.enroll');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::redirect('/', '/dashboard')->name('home');

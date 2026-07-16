@@ -11,7 +11,7 @@ use App\Models\UserType;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -37,17 +37,13 @@ class TenantUserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => Str::slug($data['name']).'-'.Str::random(4),
-            'password' => Str::password(32),
             'user_type_id' => $data['user_type_id'],
             'role_id' => $role->id,
             'tenant_id' => $tenant->id,
             'scope_id' => $data['scope_id'] ?? null,
         ]);
 
-        $token = Password::broker()->createToken($user);
-        $resetUrl = url(route('password.reset', ['token' => $token, 'email' => $user->email], false));
-
-        Mail::to($user)->send(new UserInvite($user, $resetUrl));
+        $this->sendEnrollmentEmail($user);
 
         return back()->with('flash.success', "User created. An invite email has been sent to {$user->email}.");
     }
@@ -61,5 +57,30 @@ class TenantUserController extends Controller
             ->delete();
 
         return back()->with('flash.success', 'User deleted.');
+    }
+
+    /**
+     * Fallback for a user who has lost access to every enrolled passkey:
+     * revoke them all and send a fresh enrollment link.
+     */
+    public function reissueEnrollment(string $tenantId, string $uuid): RedirectResponse
+    {
+        $user = User::query()
+            ->where('tenant_id', $tenantId)
+            ->where('uuid', $uuid)
+            ->firstOrFail();
+
+        $user->passkeys()->delete();
+
+        $this->sendEnrollmentEmail($user);
+
+        return back()->with('flash.success', "Passkeys revoked. A new enrollment email has been sent to {$user->email}.");
+    }
+
+    private function sendEnrollmentEmail(User $user): void
+    {
+        $enrollmentUrl = URL::temporarySignedRoute('passkey.enroll', now()->addHours(24), ['user' => $user->id]);
+
+        Mail::to($user)->send(new UserInvite($user, $enrollmentUrl));
     }
 }

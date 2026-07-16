@@ -28,7 +28,46 @@ test('creating a tenant user sends an invite email instead of exposing a tempora
     Mail::assertSent(UserInvite::class, function (UserInvite $mail) use ($user) {
         return $mail->user->is($user)
             && $mail->hasTo($user->email)
-            && str_contains($mail->resetUrl, '/reset-password/')
-            && str_contains($mail->resetUrl, urlencode($user->email));
+            && str_contains($mail->enrollmentUrl, '/enroll-passkey/'.$user->id);
+    });
+});
+
+test('the invited user has no password set', function () {
+    Mail::fake();
+
+    $admin = User::factory()->create(['user_type_id' => 'platform_admin']);
+    $tenant = Tenant::query()->create(['name' => 'Acme Arbodienst', 'slug' => 'acme-arbo']);
+    Role::query()->create(['app_slug' => 'case-officers', 'name' => 'case_officer']);
+
+    $this->actingAs($admin)->post("/master/tenants/{$tenant->id}/users", [
+        'name' => 'New Officer',
+        'email' => 'new-officer@example.test',
+        'user_type_id' => 'arbo',
+    ]);
+
+    $user = User::query()->where('email', 'new-officer@example.test')->firstOrFail();
+
+    expect($user->password)->toBeNull();
+});
+
+test('reissuing enrollment revokes existing passkeys and sends a fresh enrollment email', function () {
+    Mail::fake();
+
+    $admin = User::factory()->create(['user_type_id' => 'platform_admin']);
+    $tenant = Tenant::query()->create(['name' => 'Acme Arbodienst', 'slug' => 'acme-arbo']);
+    $user = User::factory()->create(['tenant_id' => $tenant->id]);
+    $user->passkeys()->create([
+        'name' => 'Old device',
+        'credential_id' => 'abc123',
+        'credential' => ['type' => 'public-key'],
+    ]);
+
+    $response = $this->actingAs($admin)->post("/master/tenants/{$tenant->id}/users/{$user->uuid}/reissue-enrollment");
+
+    $response->assertRedirect();
+    expect($user->passkeys()->count())->toBe(0);
+
+    Mail::assertSent(UserInvite::class, function (UserInvite $mail) use ($user) {
+        return $mail->user->is($user) && str_contains($mail->enrollmentUrl, '/enroll-passkey/'.$user->id);
     });
 });
