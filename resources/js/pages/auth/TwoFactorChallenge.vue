@@ -9,7 +9,8 @@ import { Label } from '@/components/ui/label';
 defineOptions({
     layout: {
         title: 'Two-factor authentication',
-        description: 'Enter the code from your authenticator app or a recovery code',
+        description:
+            'Enter the code from your authenticator app or a recovery code',
     },
 });
 
@@ -58,10 +59,14 @@ const useRecoveryCode = ref(false);
 
         <button
             type="button"
-            class="text-muted-foreground w-full text-center text-sm underline-offset-4 hover:underline"
+            class="w-full text-center text-sm text-muted-foreground underline-offset-4 hover:underline"
             @click="useRecoveryCode = !useRecoveryCode"
         >
-            {{ useRecoveryCode ? 'Use authentication code' : 'Use a recovery code' }}
+            {{
+                useRecoveryCode
+                    ? 'Use authentication code'
+                    : 'Use a recovery code'
+            }}
         </button>
     </Form>
 </template>

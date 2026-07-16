@@ -319,7 +319,7 @@ show.form = showForm
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 export const update = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -334,7 +334,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 update.url = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -361,7 +361,7 @@ update.url = (args: { tenant: string | number } | [tenant: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 update.put = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -371,7 +371,7 @@ update.put = (args: { tenant: string | number } | [tenant: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 update.patch = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -381,7 +381,7 @@ update.patch = (args: { tenant: string | number } | [tenant: string | number ] |
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 const updateForm = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -396,7 +396,7 @@ const updateForm = (args: { tenant: string | number } | [tenant: string | number
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 updateForm.put = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -411,7 +411,7 @@ updateForm.put = (args: { tenant: string | number } | [tenant: string | number ]
 
 /**
 * @see \App\Http\Controllers\Master\TenantController::update
-* @see app/Http/Controllers/Master/TenantController.php:75
+* @see app/Http/Controllers/Master/TenantController.php:77
 * @route '/master/tenants/{tenant}'
 */
 updateForm.patch = (args: { tenant: string | number } | [tenant: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

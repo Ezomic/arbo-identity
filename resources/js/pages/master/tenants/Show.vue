@@ -20,6 +20,7 @@ import { index, update } from '@/routes/master/tenants';
 import {
     store as storeUser,
     destroy as destroyUser,
+    reissueEnrollment,
 } from '@/routes/master/tenants/users';
 
 type Tenant = {
@@ -96,6 +97,16 @@ function deleteUser(uuid: string) {
     }
 
     useForm({}).delete(destroyUser({ tenant: props.tenant.id, uuid }).url);
+}
+
+function reissueUserEnrollment(uuid: string) {
+    if (
+        !confirm("Revoke this user's passkeys and send a new enrollment email?")
+    ) {
+        return;
+    }
+
+    useForm({}).post(reissueEnrollment({ tenant: props.tenant.id, uuid }).url);
 }
 
 function startImpersonate(uuid: string) {
@@ -331,6 +342,17 @@ function formatDate(dateStr: string): string {
                                                 "
                                             >
                                                 Impersonate
+                                            </Button>
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                @click="
+                                                    reissueUserEnrollment(
+                                                        user.uuid,
+                                                    )
+                                                "
+                                            >
+                                                Reissue enrollment
                                             </Button>
                                             <Button
                                                 size="sm"

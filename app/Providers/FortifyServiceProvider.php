@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Actions\Fortify\AuthenticateLoginAttempt;
-use App\Actions\Fortify\ResetUserPassword;
 use App\Http\Responses\PasskeyLoginResponse;
 use App\Http\Responses\SsoLoginResponse;
 use App\Models\User;
@@ -13,10 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Laravel\Fortify\Contracts\LoginResponse;
-use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Laravel\Passkeys\Contracts\PasskeyLoginResponse as PasskeyLoginResponseContract;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,8 +43,14 @@ class FortifyServiceProvider extends ServiceProvider
      */
     private function configureActions(): void
     {
-        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-        Fortify::authenticateUsing(fn (Request $request) => app(AuthenticateLoginAttempt::class)->handle($request));
+        // No user has a password anymore — Fortify's core /login and
+        // /user/confirm-password POST routes still exist (neither is behind
+        // a Features:: toggle), but every attempt against them is
+        // unconditionally rejected. The UI no longer offers a password
+        // field for either; passkey login/confirmation are the only
+        // working paths.
+        Fortify::authenticateUsing(fn (): ?User => null);
+        Fortify::confirmPasswordsUsing(fn (): bool => false);
     }
 
     /**
@@ -57,21 +59,10 @@ class FortifyServiceProvider extends ServiceProvider
     private function configureViews(): void
     {
         Fortify::loginView(fn (Request $request) => Inertia::render('auth/Login', [
-            'canResetPassword' => Features::enabled(Features::resetPasswords()),
             'status' => $request->session()->get('status'),
             'app' => $request->query('app'),
             'redirectTo' => $request->query('redirect_to'),
             'testAccounts' => $this->testAccounts($request),
-        ]));
-
-        Fortify::resetPasswordView(fn (Request $request) => Inertia::render('auth/ResetPassword', [
-            'email' => $request->email,
-            'token' => $request->route('token'),
-            'passwordRules' => Password::defaults()->toPasswordRulesString(),
-        ]));
-
-        Fortify::requestPasswordResetLinkView(fn (Request $request) => Inertia::render('auth/ForgotPassword', [
-            'status' => $request->session()->get('status'),
         ]));
 
         Fortify::confirmPasswordView(fn () => Inertia::render('auth/ConfirmPassword'));
@@ -141,10 +132,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(10)->by(
                 ($request->input('credential.id') ?: $request->session()->getId()).'|'.$request->ip(),
             );
-        });
-
-        RateLimiter::for('password-reset', function (Request $request) {
-            return Limit::perHour(3)->by($request->ip())->response($this->logAndRespond('password_reset'));
         });
 
         RateLimiter::for('tenant-registration', function (Request $request) {

@@ -3,13 +3,13 @@
 
 Hi {{ $user->name }},
 
-An account has been created for you. Click the button below to set your password and get started.
+An account has been created for you. Click the button below to set up your passkey and get started.
 
-@component('mail::button', ['url' => $resetUrl])
-Set your password
+@component('mail::button', ['url' => $enrollmentUrl])
+Set up your passkey
 @endcomponent
 
-This link expires in {{ config('auth.passwords.users.expire') }} minutes. If you did not expect this invitation, you can ignore this email.
+This link expires in 24 hours. If you did not expect this invitation, you can ignore this email.
 
 Thanks,
 {{ config('app.name') }}

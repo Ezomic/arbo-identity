@@ -35,7 +35,6 @@ class TenantRegistrationService
                 'name' => $data['name'],
                 'username' => $data['username'],
                 'email' => $data['email'],
-                'password' => $data['password'],
                 'user_type_id' => 'application_manager',
                 'role_id' => $adminRole->id,
                 'tenant_id' => $tenant->id,

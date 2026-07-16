@@ -45,7 +45,9 @@ const user = computed(() => page.props.auth.user);
                 :default-value="user.username"
                 disabled
             />
-            <p class="text-sm text-muted-foreground">This is what you log in with — it can't be changed here.</p>
+            <p class="text-sm text-muted-foreground">
+                This is what you log in with — it can't be changed here.
+            </p>
         </div>
 
         <Form
